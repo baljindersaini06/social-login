@@ -1,0 +1,29 @@
+<!-- PERSONAL INFO TAB -->
+<div class="tab-pane active" id="tab_1_1">
+        <form role="form" action="" id="profile-form1" method="POST">
+                {% csrf_token %}            
+                <!-- {{ fform.as_p }} -->
+                <div class="form-group">
+                    <label class="control-label">First Name</label>
+                    <input type="text" name="profile-first_name" id="profile-first_name" placeholder="{{ user.first_name }}" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Last Name</label>
+                    <input type="text" name="profile-last_name" id="profile-last_name" placeholder="{{ user.last_name }}" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Username</label>
+                    <input type="text" name="profile-username" id="profile-username" placeholder="{{ user.username }}" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Email</label>
+                    <input type="text" name="profile-email" id="profile-email" placeholder="{{ user.email }}" class="form-control"/>
+                </div>
+            <div class="margiv-top-10">
+                <input class="btn green-haze" type="submit" name="profile-btnform1" />
+                <a href="javascript:;" class="btn default">
+                Cancel </a>
+            </div>
+        </form>
+    </div>
+    <!-- END PERSONAL INFO TAB -->

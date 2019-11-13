@@ -133,6 +133,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = BASE_DIR
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'media'),
+)
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
@@ -145,3 +154,6 @@ AUTHENTICATION_BACKENDS = (
 
 SOCIAL_AUTH_GITHUB_KEY = 'a31f030b468fee672ef7'
 SOCIAL_AUTH_GITHUB_SECRET = '7a5bf96f6b6e902743b590a5beffc6c4fab08209'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '148596708475-emjorekg73idmgr092rblmg1f7pf986k.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'CwQutDwpjta1Vadly-HbHRgr'
