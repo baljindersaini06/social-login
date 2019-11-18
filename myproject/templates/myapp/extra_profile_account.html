@@ -1,6 +1,8 @@
 {% extends 'myapp/layout.html' %}
 {% load static %}
 {% block content %}
+
+
 <!-- BEGIN CONTAINER -->
 <br><br><div class="page-container">
         {% include 'includes/sidebar.html' %}
@@ -35,6 +37,13 @@
         {% include 'includes/style_customizer.html' %}
         <!-- END STYLE CUSTOMIZER -->
         <!-- BEGIN PAGE HEADER-->
+        {% if messages %}
+    <ul class="messages" align="center">
+        {% for message in messages %} 
+        {{ message }}
+        {% endfor %} 
+    </ul>
+{% endif %}
         <h3 class="page-title">
         User Account <small>user account page sample</small>
         </h3>
@@ -205,7 +214,10 @@
                                             <a href="#tab_1_3" data-toggle="tab">Change Password</a>
                                         </li>
                                         <li>
-                                            <a href="#tab_1_4" data-toggle="tab">Privacy Settings</a>
+                                            <a href="#tab_1_4" data-toggle="tab">Site Settings</a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_1_5" data-toggle="tab">SMTP Settings</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -224,9 +236,13 @@
                                         {% include 'profile_tabs/change_password.html' %}
                                         <!-- END CHANGE PASSWORD TAB -->
                                         
-                                        <!-- PRIVACY SETTINGS TAB -->
-                                        {% include 'profile_tabs/privacy_settings.html' %}
-                                        <!-- END PRIVACY SETTINGS TAB -->
+                                        <!-- SITE SETTINGS TAB -->
+                                        {% include 'profile_tabs/site_settings.html' %}
+                                        <!-- END SITE SETTINGS TAB -->
+
+                                        <!-- SMTP SETTINGS TAB -->
+                                        {% include 'profile_tabs/smtp_settings.html' %}
+                                        <!-- END SMTP SETTINGS TAB -->
 
                                     </div>
                                 </div>
