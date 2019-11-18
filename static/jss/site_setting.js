@@ -36,12 +36,9 @@ jQuery(document).ready(function() {
         },
         submitHandler: function(form) {
         form.submit();
+        toastr.success('site settings added successfully')
+
         }
     });
 });
 
-jQuery(document).ready(function() {
-    $('#form4').submit(function () {
-        toastr.success('Added successfully')
-    });
-});

@@ -15,6 +15,7 @@ jQuery(document).ready(function() {
     },
     submitHandler: function(form) {
         form.submit();
+        toastr.success('smtp settings added successfully')
     }
     });
 });
