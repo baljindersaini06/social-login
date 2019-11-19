@@ -1,12 +1,16 @@
 {% extends 'myapp/layout.html' %}
 {% load static %}
 {% block content %}
+{% for message in messages %} 
+   toastr.{{ message.tags }}("{{ message }}");
+ {% endfor %} 
 <!-- BEGIN CONTAINER -->
 <br><br><div class="page-container">
         {% include 'includes/sidebar.html' %}
 	<!-- BEGIN SIDEBAR -->
 	<!-- END SIDEBAR -->
-	<!-- BEGIN CONTENT -->
+    <!-- BEGIN CONTENT -->
+    
 <div class="page-content-wrapper">
     <div class="page-content">
         <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
@@ -87,7 +91,7 @@
                     <div class="portlet light profile-sidebar-portlet">
                         <!-- SIDEBAR USERPIC -->
                         <div class="profile-userpic">
-                            <img src="{% static 'theme/assets/admin/pages/media/profile/profile_user.jpg' %}" class="img-responsive" alt="">
+                            <img src="{{ user.profile_image.url }}" class="img-responsive" alt="">
                         </div>
                         <!-- END SIDEBAR USERPIC -->
                         <!-- SIDEBAR USER TITLE -->
