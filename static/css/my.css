@@ -1,3 +1,8 @@
 .my-error-class {
     color:red;
 }
+
+.page-content-wrapper{
+    background-color: #2989d8;
+	background: linear-gradient(to right, #353c92  9%,#155595 20%,#2989d8 1%);
+}
