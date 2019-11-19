@@ -1,0 +1,41 @@
+{% load static %}
+<script src="{% static 'jss/site_setting.js' %}"></script>
+
+<!-- SITE SETTING TAB -->
+<div class="tab-pane" id="tab_1_4">
+    <form action="" method="post" id="form4" enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="form-group">
+                <label class="control-label">Site Name</label>
+                <input type="text" name="site_name" id="site_name" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Site Email</label>
+                <input type="text" name="site_email" id="site_email" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Site Favicon</label>
+                <input type="file" name="site_favicon" id="site_favicon" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Site Logo</label>
+                <input type="file" name="site_logo" id="site_logo" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Address</label>
+                <input type="text" name="site_address" id="site_address" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">CopyRight</label>
+                <input type="text" name="copy_right" id="copy_right" class="form-control"/>
+            </div>
+            <div class="margin-top-10">
+                
+                <input class="btn green-haze" type="submit" name="btnform4" value="Save" />
+                <a href="javascript:;" class="btn default">
+                Cancel </a>
+            </div>
+            
+        </form>
+    </div>
+    <!-- END SITE SETTINGS TAB -->

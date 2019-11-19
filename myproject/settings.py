@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'myapp',
 ]
 
+
 AUTH_USER_MODEL = 'myapp.User'
 
 

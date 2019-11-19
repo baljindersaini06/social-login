@@ -1,16 +1,15 @@
 from django.shortcuts import render, reverse, redirect, get_object_or_404
-from .forms import UserCreateForm, LoginForm, PasswordChangedForm, UserForm, ImageForm
+from .forms import UserCreateForm, LoginForm, PasswordChangedForm, UserForm,SmtpForm,SiteForm, ImageForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import update_session_auth_hash
 from django.template.response import TemplateResponse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import get_user_model
 User = get_user_model()
-
 
 
 def signup(request):
@@ -71,7 +70,10 @@ def profile_account(request):
     password_form = PasswordChangedForm(request.POST)
     profile_form = UserForm(request.POST)
     image_form = ImageForm(request.POST)
+    site_form = SiteForm(request.POST, request.FILES )
+    smtp_form = SmtpForm(request.POST)
 
+ 
     if request.method == "POST":
         old_password = request.POST.get("old_password")
         if 'btnform2' in request.POST:
@@ -84,24 +86,43 @@ def profile_account(request):
                 user = password_form.save()
                 update_session_auth_hash(request, user)  # Important!
                 messages.success(request, 'Your password was successfully updated!')
-                return redirect('profile_account')
+                return HttpResponseRedirect(reverse('profile_account'))
             else:
                 messages.error(request, 'Please correct the error below.')
         elif 'btnform1' in request.POST:
             profile_form = UserForm(request.POST, instance=request.user)
             if profile_form.is_valid():
                 profile_form.save()
-                return redirect('profile_account')
         elif 'btnform3' in request.POST:
             image_form = ImageForm(request.POST, request.FILES , instance=request.user)
             if (image_form.is_valid()):
                 image_form.save()            
                 return HttpResponseRedirect(reverse('profile_account'))
-        
+        elif 'btnform4' in request.POST:         
+            site_form = SiteForm(request.POST, request.FILES)
+            if site_form.is_valid():
+                print("aaaa")
+                site_form.save()
+                messages.success(request, 'Your site settings are successfully added !')
+                return HttpResponseRedirect(reverse('profile_account'))
+        elif 'btnform5' in request.POST:
+            smtp_form = SmtpForm(request.POST)
+            if smtp_form.is_valid():
+                smtp_form.save()
+                messages.success(request, 'Your smtp settings are successfully added !')
+                return HttpResponseRedirect(reverse('profile_account'))
+        else:
+            raise Http404
+   
+
+
     return TemplateResponse(request, template="myapp/extra_profile_account.html", context={
         'password_form': password_form,
         'profile_form': profile_form,
+        'site_form': site_form,
+        'smtp_form': smtp_form,
         'image_form': image_form,
+   
     })
 
 

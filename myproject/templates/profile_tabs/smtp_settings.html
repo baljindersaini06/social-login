@@ -1,0 +1,23 @@
+<!-- SMTP SETTINGS TAB -->
+
+<div class="tab-pane" id="tab_1_5">
+    <form action="" method="post" id="form5">
+        {% csrf_token %}
+            <div class="form-group">
+                <label class="control-label">Email</label>
+                <input type="text" name="smtp_email" id="smtp_email" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Password</label>
+                <input type="password" name="smtp_password" id="smtp_password" class="form-control"/>
+            </div>
+           
+            <div class="margin-top-10">
+                
+                <input class="btn green-haze" type="submit" name="btnform5"  value="Save" />
+                <a href="javascript:;" class="btn default">
+                Cancel </a>
+            </div>
+        </form>
+    </div>
+    <!-- END SMTP SETTINGS TAB -->
