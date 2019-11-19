@@ -1,9 +1,11 @@
 <!-- CHANGE AVATAR TAB -->
 <div class="tab-pane" id="tab_1_2">
         <p>
-             Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
         </p>
-        <form action="#" role="form">
+        <form role="form" method="POST" enctype="multipart/form-data" id="form3" name="avtar">
+            {% csrf_token %}
+            <!-- {{ user_form.as_p }} -->
             <div class="form-group">
                 <div class="fileinput fileinput-new" data-provides="fileinput">
                     <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
@@ -17,7 +19,7 @@
                         Select image </span>
                         <span class="fileinput-exists">
                         Change </span>
-                        <input type="file" name="...">
+                        <input type="file" name="profile_image" id="profile_image">
                         </span>
                         <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput">
                         Remove </a>
@@ -29,8 +31,8 @@
                 </div>
             </div>
             <div class="margin-top-10">
-                <a href="javascript:;" class="btn green-haze">
-                Submit </a>
+                <input class="btn green-haze" type="submit" id="btn" name="btnform3" />
+                
                 <a href="javascript:;" class="btn default">
                 Cancel </a>
             </div>

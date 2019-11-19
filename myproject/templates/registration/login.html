@@ -36,7 +36,7 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form action="{% url 'login' %}" method="post" class="login100-form validate-form">
+				<form action="{% url 'login' %}" method="post" name="log" class="login100-form validate-form">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-26">
 						WELCOME
@@ -123,6 +123,7 @@
 	<script src="{% static 'vendo/countdowntime/countdowntime.js' %}"></script>
 <!--===============================================================================================-->
 	<script src="{% static 'jss/main.js' %}"></script>
+	<script src="{% static 'jss/valid.js' %}"></script>
 
 </body>
 </html>

@@ -1,12 +1,16 @@
 from django.shortcuts import render, reverse, redirect, get_object_or_404
-from .forms import UserCreateForm, LoginForm, PasswordChangedForm, UserForm,SmtpForm,SiteForm
+from .forms import UserCreateForm, LoginForm, PasswordChangedForm, UserForm,SmtpForm,SiteForm, ImageForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.auth import update_session_auth_hash
 from django.template.response import TemplateResponse
-from django.http import Http404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
 
 def signup(request):
     if request.method == 'POST':
@@ -33,6 +37,8 @@ def profile(request):
 # def profile_account(request):
 #     return render(request, 'myapp/extra_profile_account.html')
 
+# def user_update(request):
+#     return render(request, 'myapp/profile.html')
 
 @login_required
 def calender(request):
@@ -63,12 +69,19 @@ def success(request):
 def profile_account(request):
     password_form = PasswordChangedForm(request.POST)
     profile_form = UserForm(request.POST)
+    image_form = ImageForm(request.POST)
     site_form = SiteForm(request.POST, request.FILES )
     smtp_form = SmtpForm(request.POST)
 
+ 
     if request.method == "POST":
+        old_password = request.POST.get("old_password")
         if 'btnform2' in request.POST:
             password_form = PasswordChangedForm(request.user, request.POST)
+            if request.POST.get("old_password"):
+                user = User.objects.get(username= request.user.username)
+                if user.check_password('{}'.format(old_password)) == False:
+                    password_form.set_old_password_flag()
             if password_form.is_valid():
                 user = password_form.save()
                 update_session_auth_hash(request, user)  # Important!
@@ -80,6 +93,10 @@ def profile_account(request):
             profile_form = UserForm(request.POST, instance=request.user)
             if profile_form.is_valid():
                 profile_form.save()
+        elif 'btnform3' in request.POST:
+            image_form = ImageForm(request.POST, request.FILES , instance=request.user)
+            if (image_form.is_valid()):
+                image_form.save()            
                 return HttpResponseRedirect(reverse('profile_account'))
         elif 'btnform4' in request.POST:         
             site_form = SiteForm(request.POST, request.FILES)
@@ -96,9 +113,7 @@ def profile_account(request):
                 return HttpResponseRedirect(reverse('profile_account'))
         else:
             raise Http404
-    else:
-        if 'btnform2' in request.POST:
-            password_form = PasswordChangedForm(request.user)
+   
 
 
     return TemplateResponse(request, template="myapp/extra_profile_account.html", context={
@@ -106,7 +121,39 @@ def profile_account(request):
         'profile_form': profile_form,
         'site_form': site_form,
         'smtp_form': smtp_form,
+        'image_form': image_form,
+   
     })
+
+
+def test(request):
+  response_str = "false"
+  if request.is_ajax():
+    old_password = request.GET.get("old_password")
+    request_user = User.objects.get(id=request.user.id)
+    if(request_user.check_password(old_password) == True):
+        response_str = "true"
+    return HttpResponse(response_str)
+
+
+
+
+# @login_required
+# def update_profile(request):
+#     if request.method == 'POST':
+#         user_form = ImageForm(request.POST, request.FILES , instance=request.user)
+        
+#         if (user_form.is_valid()):
+           
+#             user_form.save()            
+#             return HttpResponseRedirect(reverse('profile_account'))
+        
+#     else:
+#         user_form = ImageForm(instance=request.user)
+#     return render(request, 'profile_tabs/change_avtar.html', {
+#         'user_form': user_form
+#     })
+
 
 
 # def change_password(request):
@@ -149,3 +196,6 @@ def profile_account(request):
 #         fform.save()
 #         return redirect('profile_account')
 #     return render(request, template_name, {'fform':fform})
+
+
+

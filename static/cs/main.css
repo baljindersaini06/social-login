@@ -87,6 +87,12 @@ ul, li {
 }
 
 
+.my-error-class {
+  color:red;
+}
+
+
+
 /*---------------------------------------------*/
 input {
 	outline: none;

@@ -7,7 +7,7 @@ from .validators import validate_file_extension
 
 
 class User(AbstractUser):
-    profile_image = models.ImageField(upload_to='images/')
+    profile_image = models.ImageField(upload_to='images/', default='images/image.jpg')
 
 
 class SiteConfiguration(models.Model):
