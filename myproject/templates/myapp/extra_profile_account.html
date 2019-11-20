@@ -1,10 +1,7 @@
 {% extends 'myapp/layout.html' %}
 {% load static %}
 {% block content %}
-
-{% for message in messages %} 
-   toastr.{{ message.tags }}("{{ message }}");
- {% endfor %} 
+ 
 
 <!-- BEGIN CONTAINER -->
 <br><br><div class="page-container">
@@ -58,12 +55,12 @@
                     <a href="{% url 'dashboard' %}">Home</a>
                     <i class="fa fa-angle-right"></i>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="#">Pages</a>
                     <i class="fa fa-angle-right"></i>
-                </li>
+                </li> -->
                 <li>
-                    <a href="#">User Account</a>
+                    <a href="/profile_account">User Account</a>
                 </li>
             </ul>
             <div class="page-toolbar">

@@ -1,6 +1,6 @@
 jQuery(document).ready(function() {  
     $("form[name='profile']").validate({
-    errorClass: "my-error-class",
+    errorClass: "my-error-class", //for error colors
     // Specify validation rules
     rules: {
     // The key name on the left side is the name attribute
