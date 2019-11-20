@@ -5,29 +5,30 @@
 <div class="tab-pane" id="tab_1_4">
     <form action="" method="post" id="form4" enctype="multipart/form-data">
         {% csrf_token %}
+ 
             <div class="form-group">
                 <label class="control-label">Site Name</label>
-                <input type="text" name="site_name" id="site_name" class="form-control"/>
+                <input type="text" name="site_name" id="site_name" class="form-control" value="{{ updatesite_form.site_name }}"/>
             </div>
             <div class="form-group">
                 <label class="control-label">Site Email</label>
-                <input type="text" name="site_email" id="site_email" class="form-control"/>
+                <input type="text" name="site_email" id="site_email" class="form-control" value="{{ updatesite_form.site_email }}"/>
             </div>
             <div class="form-group">
                 <label class="control-label">Site Favicon</label>
-                <input type="file" name="site_favicon" id="site_favicon" class="form-control"/>
+                <input type="file" name="site_favicon" id="site_favicon" class="form-control"  value="{{ updatesite_form.site_favicon.url }}" /><a href="{{ updatesite_form.site_favicon.url }}">{{ updatesite_form.site_favicon }}</a>
             </div>
             <div class="form-group">
                 <label class="control-label">Site Logo</label>
-                <input type="file" name="site_logo" id="site_logo" class="form-control"/>
+                <input type="file" name="site_logo" id="site_logo" class="form-control" value="{{ updatesite_form.site_logo.url }}"/><a href="{{ updatesite_form.site_logo.url }}">{{ updatesite_form.site_logo }}</a>
             </div>
             <div class="form-group">
                 <label class="control-label">Address</label>
-                <input type="text" name="site_address" id="site_address" class="form-control"/>
+                <input type="text" name="site_address" id="site_address" class="form-control" value="{{ updatesite_form.site_address }}"/>
             </div>
             <div class="form-group">
                 <label class="control-label">CopyRight</label>
-                <input type="text" name="copy_right" id="copy_right" class="form-control"/>
+                <input type="text" name="copy_right" id="copy_right" class="form-control" value="{{ updatesite_form.copy_right }}"/>
             </div>
             <div class="margin-top-10">
                 
@@ -37,5 +38,6 @@
             </div>
             
         </form>
+    
     </div>
     <!-- END SITE SETTINGS TAB -->

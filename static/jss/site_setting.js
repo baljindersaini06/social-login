@@ -10,22 +10,18 @@ jQuery(document).ready(function() {
             email: true,
         },
         site_favicon: {
-            required: true,
             extension: "jpg|jpeg|png|ico|bmp"
         },
         site_logo: {
-            required: true,
             extension: "jpg|jpeg|png|ico|bmp"
         }
         },
         messages: {
             site_name: 'This field is required',
             site_favicon: {
-                required:'This field is required',
                 extension:'Please upload file in these format only (jpg, jpeg, png, ico, bmp).'
             },
             site_logo: {
-                required:'This field is required',
                 extension:'Please upload file in these format only (jpg, jpeg, png, ico, bmp).'
             },
             site_email: 'Enter a valid email',

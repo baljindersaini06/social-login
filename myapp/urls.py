@@ -9,6 +9,8 @@ urlpatterns=[
     path('profile', views.profile, name='profile'),
     path('page_calender', views.calender, name='page_calender'),
     path('profile_account', views.profile_account, name='profile_account'),
+    # path('siteupdate',views.siteupdate,name='siteupdate'),
+
     #path('editprofile',views.update_profile,name='editprofile'),
     #path('change_password', views.change_password, name='change_password'),
     #path('userclient',views.user_update, name='userclient'),
