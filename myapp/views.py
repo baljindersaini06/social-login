@@ -1,5 +1,5 @@
 from django.shortcuts import render, reverse, redirect, get_object_or_404
-from .forms import UserCreateForm, LoginForm, PasswordChangedForm, UserForm,SmtpForm,SiteForm, ImageForm
+from .forms import UserCreateForm, LoginForm, PasswordChangedForm, UserForm,SmtpForm,SiteForm, ImageForm,UpdateSiteForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -10,7 +10,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import get_user_model
 User = get_user_model()
-
+from myapp.models import SiteConfiguration,SmtpConfiguration
 
 def signup(request):
     if request.method == 'POST':
@@ -70,10 +70,20 @@ def profile_account(request):
     password_form = PasswordChangedForm(request.POST)
     profile_form = UserForm(request.POST)
     image_form = ImageForm(request.POST)
-    site_form = SiteForm(request.POST, request.FILES )
-    smtp_form = SmtpForm(request.POST)
+    site_form = SiteForm()
+    smtp_form = SmtpForm()
 
- 
+    try:
+        updatesite_form=SiteConfiguration.objects.get(user=request.user) 
+    except SiteConfiguration.DoesNotExist:
+        updatesite_form = None
+
+    try:
+        smtp_set=SmtpConfiguration.objects.get(user=request.user)
+    except SmtpConfiguration.DoesNotExist:
+        smtp_set = None
+   
+   
     if request.method == "POST":
         old_password = request.POST.get("old_password")
         if 'btnform2' in request.POST:
@@ -98,23 +108,54 @@ def profile_account(request):
             if (image_form.is_valid()):
                 image_form.save()            
                 return HttpResponseRedirect(reverse('profile_account'))
-        elif 'btnform4' in request.POST:         
-            site_form = SiteForm(request.POST, request.FILES)
-            if site_form.is_valid():
-                print("aaaa")
-                site_form.save()
-                messages.success(request, 'Your site settings are successfully added !')
-                return HttpResponseRedirect(reverse('profile_account'))
+        elif 'btnform4' in request.POST:
+            if SiteConfiguration.objects.filter(user=request.user).exists():
+
+                try:
+                    site_sett=SiteConfiguration.objects.get(user=request.user) 
+                except SiteConfiguration.DoesNotExist:
+                    site_sett = None
+
+                updatesite_form = UpdateSiteForm(request.POST, request.FILES , instance=site_sett)        
+                if updatesite_form.is_valid():
+                    updatesite_form.save()            
+                    return HttpResponseRedirect(reverse('profile_account'))                     
+            else:       
+                site_form = SiteForm(request.POST, request.FILES)
+                if site_form.is_valid():
+                    post = site_form.save(commit=False)
+                    post.user = request.user
+                    post.save()  
+                    messages.success(request, 'Your site settings are successfully added !')
+                    return HttpResponseRedirect(reverse('profile_account'))  
+    
         elif 'btnform5' in request.POST:
-            smtp_form = SmtpForm(request.POST)
-            if smtp_form.is_valid():
-                smtp_form.save()
-                messages.success(request, 'Your smtp settings are successfully added !')
-                return HttpResponseRedirect(reverse('profile_account'))
+            if SmtpConfiguration.objects.filter(user=request.user).exists():
+
+                try:
+                    smtp_sett=SmtpConfiguration.objects.get(user=request.user)
+                except SmtpConfiguration.DoesNotExist:
+                    smtp_sett = None      
+
+                smtp_form = SmtpForm(request.POST, request.FILES , instance=smtp_sett)        
+                if smtp_form.is_valid():
+                    smtp_form.save()            
+                    return HttpResponseRedirect(reverse('profile_account'))                      
+            else:       
+                smtp_form = SmtpForm(request.POST, request.FILES)
+                if smtp_form.is_valid():
+                    smtp_post = smtp_form.save(commit=False)
+                    smtp_post.user = request.user
+                    smtp_post.save()  
+                    messages.success(request, 'Your smtp settings are successfully added !')
+                    return HttpResponseRedirect(reverse('profile_account'))     
         else:
             raise Http404
-   
-
+    else:
+        if SiteConfiguration.objects.filter(user=request.user).exists():
+            site_profile_form = SiteForm(instance=SiteConfiguration.objects.get(user=request.user)) 
+        elif SmtpConfiguration.objects.filter(user=request.user).exists():
+            smtp_form = SmtpForm(instance=SmtpConfiguration.objects.get(user=request.user)) 
 
     return TemplateResponse(request, template="myapp/extra_profile_account.html", context={
         'password_form': password_form,
@@ -122,9 +163,27 @@ def profile_account(request):
         'site_form': site_form,
         'smtp_form': smtp_form,
         'image_form': image_form,
-   
+       
+        'smtp_set':smtp_set,
+        'updatesite_form':updatesite_form,
     })
 
+# def siteupdate(request):
+#     if Site.objects.filter(user=username).exists():
+#     if request.method == 'POST':
+#         site_profile_form = UpdateSiteForm(request.POST, request.FILES , instance=request.user.site)
+        
+#         if site_profile_form.is_valid():
+           
+#             site_profile_form.save()            
+#             return HttpResponseRedirect(reverse('success'))
+        
+#     else:
+#         site_profile_form = UpdateSiteForm(instance=request.user)
+#     return render(request, 'profile_tabs/updatesite.html', {
+#         'site_profile_form': site_profile_form,
+       
+#     })
 
 def test(request):
   response_str = "false"
@@ -134,6 +193,7 @@ def test(request):
     if(request_user.check_password(old_password) == True):
         response_str = "true"
     return HttpResponse(response_str)
+
 
 
 
